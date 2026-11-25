@@ -1,0 +1,22 @@
+﻿import React from 'react';
+import {createRoot} from 'react-dom/client';
+import {BrowserRouter,Routes,Route,Navigate} from 'react-router-dom';
+import './index.css';
+import {AppProvider,useApp} from './store/AppContext';
+import Layout from './components/Layout';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import Contacts from './pages/Contacts';
+import ContactDetail from './pages/ContactDetail';
+import Activities from './pages/Activities';
+import {Pipeline} from './pages/SimplePages';
+import Admin from './pages/AdminPage';
+import Requirements from './pages/RequirementsPage';
+import FollowUps from './pages/FollowUpsPage';
+import Audit from './pages/AuditPage';
+import Accounts from './pages/AccountsPage';
+import Reports from './pages/ReportsPage';
+import ImportPage from './pages/ImportPage';
+import Meetings from './pages/MeetingsPage';
+function AuthenticatedLayout(){const {apiMode}=useApp();const signedIn=apiMode?Boolean(sessionStorage.getItem('bdcrm-api-token')):sessionStorage.getItem('bdcrm-demo-session')==='true';return signedIn?<Layout/>:<Navigate to='/login' replace/>;}
+createRoot(document.getElementById('root')!).render(<React.StrictMode><AppProvider><BrowserRouter><Routes><Route path='/login' element={<Login/>}/><Route element={<AuthenticatedLayout/>}><Route index element={<Dashboard/>}/><Route path='accounts' element={<Accounts/>}/><Route path='contacts' element={<Contacts/>}/><Route path='contacts/:id' element={<ContactDetail/>}/><Route path='activities' element={<Activities/>}/><Route path='follow-ups' element={<FollowUps/>}/><Route path='meetings' element={<Meetings/>}/><Route path='requirements' element={<Requirements/>}/><Route path='pipeline' element={<Pipeline/>}/><Route path='reports' element={<Reports/>}/><Route path='import' element={<ImportPage/>}/><Route path='audit' element={<Audit/>}/><Route path='admin' element={<Admin/>}/><Route path='*' element={<Navigate to='/'/>}/></Route></Routes></BrowserRouter></AppProvider></React.StrictMode>);
